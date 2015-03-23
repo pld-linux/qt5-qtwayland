@@ -1,10 +1,10 @@
 # TODO:
 # - brcm_egl, libhybris_egl_server
 # - enable docs & examples when ready upstream
-# - QtCompositor API (CONFIG+=wayland-compositor)?
 #
 # Conditional build:
-%bcond_with	qch	# documentation in QCH format [TODO: enable when docs exist]
+%bcond_with	qch		# documentation in QCH format [TODO: enable when docs exist]
+%bcond_without	qtcompositor	# QtCompositor API
 
 %define		orgname		qtwayland
 %define		qtbase_ver		%{version}
@@ -24,8 +24,8 @@ BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libwayland-egl-devel
 BuildRequires:	OpenGL-GLX-devel
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
-BuildRequires:	Qt5PlatformSupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Gui-devel >= %{qtbase_ver}
+BuildRequires:	Qt5PlatformSupport-devel >= %{qtbase_ver}
 BuildRequires:	pkgconfig
 %if %{with qch}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
@@ -38,6 +38,11 @@ BuildRequires:	wayland-devel >= 1.2.0
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.2.0
 BuildRequires:	xz
+%if %{with qtcompositor}
+BuildRequires:	Qt5Qml-devel >= %{qtdeclarative_ver}
+BuildRequires:	Qt5Quick-devel >= %{qtdeclarative_ver}
+BuildRequires:	xorg-lib-libX11-devel
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		specflags	-fno-strict-aliasing
@@ -58,12 +63,54 @@ systemach biurkowych, przenośnych i wbudowanych bez przepisywania kodu
 
 Ten pakiet zawiera biblioteki Qt5 Wayland.
 
+%package -n Qt5Compositor
+Summary:	The Qt5 Compositor library
+Summary(pl.UTF-8):	Biblioteka Qt5 Compositor
+Group:		Libraries
+Requires:	Qt5Core >= %{qtbase_ver}
+Requires:	Qt5Gui >= %{qtbase_ver}
+Requires:	Qt5Network >= %{qtbase_ver}
+Requires:	Qt5Qml >= %{qtdeclarative_ver}
+Requires:	Qt5Quick >= %{qtdeclarative_ver}
+Requires:	wayland >= 1.2.0
+Requires:	xorg-lib-libxkbcommon >= 0.2.0
+
+%description -n Qt5Compositor
+Qt5 Compositor library enables the creation of Wayland compositors
+using Qt and QtQuick.
+
+%description -n Qt5Compositor -l pl.UTF-8
+Biblioteka Qt5 Compositor pozwala na tworzenie kompozytorów Wayland
+przy użyciu bibliotek Qt i QtQuick.
+
+%package -n Qt5Compositor-devel
+Summary:	Qt5 Compositor library - development files
+Summary(pl.UTF-8):	Biblioteka Qt5 Compositor - pliki programistyczne
+Group:		Development/Libraries
+Requires:	OpenGL-devel
+Requires:	Qt5Compositor = %{version}-%{release}
+Requires:	Qt5Core-devel >= %{qtbase_ver}
+Requires:	Qt5Gui-devel >= %{qtbase_ver}
+Requires:	Qt5Network-devel >= %{qtbase_ver}
+Requires:	Qt5Qml-devel >= %{qtdeclarative_ver}
+Requires:	Qt5Quick-devel >= %{qtdeclarative_ver}
+Requires:	wayland-devel >= 1.2.0
+Requires:	xorg-lib-libxkbcommon-devel >= 0.2.0
+
+%description -n Qt5Compositor-devel
+Qt5 Compositor library - development files.
+
+%description -n Qt5Compositor-devel -l pl.UTF-8
+Biblioteka Qt5 Compositor - pliki programistyczne.
+
 %package -n Qt5WaylandClient
 Summary:	The Qt5 WaylandClient library
 Summary(pl.UTF-8):	Biblioteka Qt5 WaylandClient
 Group:		Libraries
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
+Requires:	wayland >= 1.2.0
+Requires:	xorg-lib-libxkbcommon >= 0.2.0
 
 %description -n Qt5WaylandClient
 Qt5 WaylandClient library enables Qt applications to be run as Wayland
@@ -82,8 +129,8 @@ Requires:	Qt5DBus-devel >= %{qtbase_ver}
 Requires:	Qt5Gui-devel >= %{qtbase_ver}
 Requires:	Qt5PlatformSupport-devel >= %{qtbase_ver}
 Requires:	Qt5WaylandClient = %{version}-%{release}
-Requires:	wayland-devel
-Requires:	xorg-lib-libxkbcommon-devel
+Requires:	wayland-devel >= 1.2.0
+Requires:	xorg-lib-libxkbcommon-devel >= 0.2.0
 
 %description -n Qt5WaylandClient-devel
 Qt5 WaylandClient library - development files.
@@ -139,7 +186,8 @@ Przykłady do bibliotek Qt5 Wayland.
 %setup -q -n %{orgname}-opensource-src-%{version}
 
 %build
-qmake-qt5
+qmake-qt5 \
+	%{?with_qtcompositor:CONFIG+=wayland-compositor}
 %{__make}
 %{__make} %{!?with_qch:html_}docs
 
@@ -152,12 +200,15 @@ rm -rf $RPM_BUILD_ROOT
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # useless symlinks
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5WaylandClient.so.5.?
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.so.5.?
 # actually drop *.la, follow policy of not packaging them when *.pc exist
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5WaylandClient.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
 # no proper cmake support as of 5.4.1
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/cmake/{Qt5Gui/Qt5Gui_,Qt5WaylandClient/Qt5WaylandClient_}.cmake
+%if %{with qtcompositor}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/cmake/Qt5Compositor/Qt5Compositor_.cmake
+%endif
 
 # Prepare some files list
 ifecho() {
@@ -181,15 +232,44 @@ ifecho_tree() {
 	done
 }
 
-# examples not enabled in sources as of 5.4.1
-#echo "%defattr(644,root,root,755)" > examples.files
-#ifecho_tree examples %{_examplesdir}/qt5/enginio
+# examples present only for QtCompositor (as of 5.4.1)
+%if %{with qtcompositor}
+echo "%defattr(644,root,root,755)" > examples.files
+ifecho_tree examples %{_examplesdir}/qt5/wayland
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-n Qt5Compositor -p /sbin/ldconfig
+%postun	-n Qt5Compositor -p /sbin/ldconfig
+
 %post	-n Qt5WaylandClient -p /sbin/ldconfig
 %postun	-n Qt5WaylandClient -p /sbin/ldconfig
+
+%if %{with qtcompositor}
+%files -n Qt5Compositor
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQt5Compositor.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5Compositor.so.5
+%attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-glx.so
+%dir %{qt5dir}/plugins/wayland-graphics-integration-server
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdrm-egl-server.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libwayland-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-glx.so
+
+%files -n Qt5Compositor-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQt5Compositor.so
+%{_libdir}/libQt5Compositor.prl
+%{_includedir}/qt5/QtCompositor
+%{_pkgconfigdir}/Qt5Compositor.pc
+%{_libdir}/cmake/Qt5Compositor
+%{qt5dir}/mkspecs/modules/qt_lib_compositor.pri
+%{qt5dir}/mkspecs/modules/qt_lib_compositor_private.pri
+%endif
 
 %files -n Qt5WaylandClient
 %defattr(644,root,root,755)
@@ -237,8 +317,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 %endif
 
-# not finished
-%if 0
+%if %{with qtcompositor}
 %files examples -f examples.files
 %defattr(644,root,root,755)
 # XXX: dir shared with qt5-qtbase-examples

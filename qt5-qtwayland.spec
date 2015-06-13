@@ -13,12 +13,12 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.4.1
+Version:	5.4.2
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.4/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	a132295b896062d21ded0937a56d22a3
+# Source0-md5:	68de7d22a4275e55e787fb8b0f0e2896
 URL:		http://qt-project.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libwayland-egl-devel

@@ -13,13 +13,13 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.4.2
+Version:	5.5.1
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.4/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	68de7d22a4275e55e787fb8b0f0e2896
-URL:		http://qt-project.org/
+Source0:	http://download.qt.io/official_releases/qt/5.5/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
+# Source0-md5:	5312f2508f4856d8e60a1374070cec34
+URL:		http://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libwayland-egl-devel
 BuildRequires:	OpenGL-GLX-devel
@@ -34,7 +34,7 @@ BuildRequires:	qt5-build >= %{qtbase_ver}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
 BuildRequires:	rpmbuild(macros) >= 1.654
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	wayland-devel >= 1.2.0
+BuildRequires:	wayland-devel >= 1.4.0
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.2.0
 BuildRequires:	xz
@@ -72,7 +72,7 @@ Requires:	Qt5Gui >= %{qtbase_ver}
 Requires:	Qt5Network >= %{qtbase_ver}
 Requires:	Qt5Qml >= %{qtdeclarative_ver}
 Requires:	Qt5Quick >= %{qtdeclarative_ver}
-Requires:	wayland >= 1.2.0
+Requires:	wayland >= 1.4.0
 Requires:	xorg-lib-libxkbcommon >= 0.2.0
 
 %description -n Qt5Compositor
@@ -94,7 +94,7 @@ Requires:	Qt5Gui-devel >= %{qtbase_ver}
 Requires:	Qt5Network-devel >= %{qtbase_ver}
 Requires:	Qt5Qml-devel >= %{qtdeclarative_ver}
 Requires:	Qt5Quick-devel >= %{qtdeclarative_ver}
-Requires:	wayland-devel >= 1.2.0
+Requires:	wayland-devel >= 1.4.0
 Requires:	xorg-lib-libxkbcommon-devel >= 0.2.0
 
 %description -n Qt5Compositor-devel
@@ -109,7 +109,7 @@ Summary(pl.UTF-8):	Biblioteka Qt5 WaylandClient
 Group:		Libraries
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
-Requires:	wayland >= 1.2.0
+Requires:	wayland >= 1.4.0
 Requires:	xorg-lib-libxkbcommon >= 0.2.0
 
 %description -n Qt5WaylandClient
@@ -129,7 +129,7 @@ Requires:	Qt5DBus-devel >= %{qtbase_ver}
 Requires:	Qt5Gui-devel >= %{qtbase_ver}
 Requires:	Qt5PlatformSupport-devel >= %{qtbase_ver}
 Requires:	Qt5WaylandClient = %{version}-%{release}
-Requires:	wayland-devel >= 1.2.0
+Requires:	wayland-devel >= 1.4.0
 Requires:	xorg-lib-libxkbcommon-devel >= 0.2.0
 
 %description -n Qt5WaylandClient-devel
@@ -204,7 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 # actually drop *.la, follow policy of not packaging them when *.pc exist
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
-# no proper cmake support as of 5.4.1
+# no proper cmake support as of 5.5.1 (there should be some names after _)
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/cmake/{Qt5Gui/Qt5Gui_,Qt5WaylandClient/Qt5WaylandClient_}.cmake
 %if %{with qtcompositor}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/cmake/Qt5Compositor/Qt5Compositor_.cmake
@@ -232,7 +232,7 @@ ifecho_tree() {
 	done
 }
 
-# examples present only for QtCompositor (as of 5.4.1)
+# examples present only for QtCompositor (as of 5.5.1)
 %if %{with qtcompositor}
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho_tree examples %{_examplesdir}/qt5/wayland

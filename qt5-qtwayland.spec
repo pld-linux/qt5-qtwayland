@@ -13,19 +13,25 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.5.1
+Version:	5.8.0
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.5/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	5312f2508f4856d8e60a1374070cec34
+Source0:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
+# Source0-md5:	0a40bd721bd5e1630601beab660c6ea9
 URL:		http://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libwayland-egl-devel
 BuildRequires:	OpenGL-GLX-devel
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
+BuildRequires:	Qt5EglSupport-devel >= %{qtbase_ver}
+BuildRequires:	Qt5EventDispatcherSupport-devel >= %{qtbase_ver}
+BuildRequires:	Qt5FontDatabaseSupport-devel >= %{qtbase_ver}
+BuildRequires:	Qt5GlxSupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Gui-devel >= %{qtbase_ver}
-BuildRequires:	Qt5PlatformSupport-devel >= %{qtbase_ver}
+BuildRequires:	Qt5PlatformCompositorSupport-devel >= %{qtbase_ver}
+BuildRequires:	Qt5ServiceSupport-devel >= %{qtbase_ver}
+BuildRequires:	Qt5ThemeSupport-devel >= %{qtbase_ver}
 BuildRequires:	pkgconfig
 %if %{with qch}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
@@ -63,9 +69,9 @@ systemach biurkowych, przenośnych i wbudowanych bez przepisywania kodu
 
 Ten pakiet zawiera biblioteki Qt5 Wayland.
 
-%package -n Qt5Compositor
-Summary:	The Qt5 Compositor library
-Summary(pl.UTF-8):	Biblioteka Qt5 Compositor
+%package -n Qt5WaylandCompositor
+Summary:	The Qt5 WaylandCompositor library
+Summary(pl.UTF-8):	Biblioteka Qt5 WaylandCompositor
 Group:		Libraries
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
@@ -74,18 +80,19 @@ Requires:	Qt5Qml >= %{qtdeclarative_ver}
 Requires:	Qt5Quick >= %{qtdeclarative_ver}
 Requires:	wayland >= 1.4.0
 Requires:	xorg-lib-libxkbcommon >= 0.2.0
+Obsoletes:	Qt5Compositor
 
-%description -n Qt5Compositor
-Qt5 Compositor library enables the creation of Wayland compositors
-using Qt and QtQuick.
+%description -n Qt5WaylandCompositor
+Qt5 WaylandCompositor library enables the creation of Wayland
+compositors using Qt and QtQuick.
 
-%description -n Qt5Compositor -l pl.UTF-8
-Biblioteka Qt5 Compositor pozwala na tworzenie kompozytorów Wayland
-przy użyciu bibliotek Qt i QtQuick.
+%description -n Qt5WaylandCompositor -l pl.UTF-8
+Biblioteka Qt5 WaylandCompositor pozwala na tworzenie kompozytorów
+Wayland przy użyciu bibliotek Qt i QtQuick.
 
-%package -n Qt5Compositor-devel
-Summary:	Qt5 Compositor library - development files
-Summary(pl.UTF-8):	Biblioteka Qt5 Compositor - pliki programistyczne
+%package -n Qt5WaylandCompositor-devel
+Summary:	Qt5 WaylandCompositor library - development files
+Summary(pl.UTF-8):	Biblioteka Qt5 WaylandCompositor - pliki programistyczne
 Group:		Development/Libraries
 Requires:	OpenGL-devel
 Requires:	Qt5Compositor = %{version}-%{release}
@@ -96,12 +103,13 @@ Requires:	Qt5Qml-devel >= %{qtdeclarative_ver}
 Requires:	Qt5Quick-devel >= %{qtdeclarative_ver}
 Requires:	wayland-devel >= 1.4.0
 Requires:	xorg-lib-libxkbcommon-devel >= 0.2.0
+Obsoletes:	Qt5Compositor-devel
 
-%description -n Qt5Compositor-devel
-Qt5 Compositor library - development files.
+%description -n Qt5WaylandCompositor-devel
+Qt5 WaylandCompositor library - development files.
 
-%description -n Qt5Compositor-devel -l pl.UTF-8
-Biblioteka Qt5 Compositor - pliki programistyczne.
+%description -n Qt5WaylandCompositor-devel -l pl.UTF-8
+Biblioteka Qt5 WaylandCompositor - pliki programistyczne.
 
 %package -n Qt5WaylandClient
 Summary:	The Qt5 WaylandClient library
@@ -206,9 +214,6 @@ rm -rf $RPM_BUILD_ROOT
 
 # no proper cmake support as of 5.5.1 (there should be some names after _)
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/cmake/{Qt5Gui/Qt5Gui_,Qt5WaylandClient/Qt5WaylandClient_}.cmake
-%if %{with qtcompositor}
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/cmake/Qt5Compositor/Qt5Compositor_.cmake
-%endif
 
 # Prepare some files list
 ifecho() {
@@ -241,17 +246,17 @@ ifecho_tree examples %{_examplesdir}/qt5/wayland
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-n Qt5Compositor -p /sbin/ldconfig
-%postun	-n Qt5Compositor -p /sbin/ldconfig
+%post	-n Qt5WaylandCompositor -p /sbin/ldconfig
+%postun	-n Qt5WaylandCompositor -p /sbin/ldconfig
 
 %post	-n Qt5WaylandClient -p /sbin/ldconfig
 %postun	-n Qt5WaylandClient -p /sbin/ldconfig
 
 %if %{with qtcompositor}
-%files -n Qt5Compositor
+%files -n Qt5WaylandCompositor
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQt5Compositor.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5Compositor.so.5
+%attr(755,root,root) %{_libdir}/libQt5WaylandCompositor.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5WaylandCompositor.so.5
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-server
@@ -259,16 +264,21 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libwayland-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-glx.so
+%dir %{qt5dir}/qml/QtWayland
+%dir %{qt5dir}/qml/QtWayland/Compositor
+%attr(755,root,root) %{qt5dir}/qml/QtWayland/Compositor/libqwaylandcompositorplugin.so
+%{qt5dir}/qml/QtWayland/Compositor/plugins.qmltypes
+%{qt5dir}/qml/QtWayland/Compositor/qmldir
 
-%files -n Qt5Compositor-devel
+%files -n Qt5WaylandCompositor-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQt5Compositor.so
-%{_libdir}/libQt5Compositor.prl
-%{_includedir}/qt5/QtCompositor
-%{_pkgconfigdir}/Qt5Compositor.pc
-%{_libdir}/cmake/Qt5Compositor
-%{qt5dir}/mkspecs/modules/qt_lib_compositor.pri
-%{qt5dir}/mkspecs/modules/qt_lib_compositor_private.pri
+%attr(755,root,root) %{_libdir}/libQt5WaylandCompositor.so
+%{_libdir}/libQt5WaylandCompositor.prl
+%{_includedir}/qt5/QtWaylandCompositor
+%{_pkgconfigdir}/Qt5WaylandCompositor.pc
+%{_libdir}/cmake/Qt5WaylandCompositor
+%{qt5dir}/mkspecs/modules/qt_lib_waylandcompositor.pri
+%{qt5dir}/mkspecs/modules/qt_lib_waylandcompositor_private.pri
 %endif
 
 %files -n Qt5WaylandClient
@@ -287,6 +297,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libwayland-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libxcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libxcomposite-glx.so
+%dir %{qt5dir}/plugins/wayland-shell-integration
+%attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libivi-shell.so
 
 %files -n Qt5WaylandClient-devel
 %defattr(644,root,root,755)
@@ -294,9 +306,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libQt5WaylandClient.prl
 %{_includedir}/qt5/QtWaylandClient
 %{_pkgconfigdir}/Qt5WaylandClient.pc
-# FIXME (see above)
-#%{_libdir}/cmake/Qt5Gui/Qt5Gui_???.cmake
-#%{_libdir}/cmake/Qt5WaylandClient
+%{_libdir}/cmake/Qt5WaylandClient
 %{qt5dir}/mkspecs/modules/qt_lib_waylandclient.pri
 %{qt5dir}/mkspecs/modules/qt_lib_waylandclient_private.pri
 

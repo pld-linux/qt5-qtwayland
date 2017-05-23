@@ -1,9 +1,8 @@
 # TODO:
 # - brcm_egl, libhybris_egl_server
-# - enable docs & examples when ready upstream
 #
 # Conditional build:
-%bcond_with	qch		# documentation in QCH format [TODO: enable when docs exist]
+%bcond_without	doc		# Build documentation
 %bcond_without	qtcompositor	# QtCompositor API
 
 %define		orgname		qtwayland
@@ -14,7 +13,7 @@ Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
 Version:	5.8.0
-Release:	2
+Release:	3
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
@@ -33,7 +32,7 @@ BuildRequires:	Qt5PlatformCompositorSupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5ServiceSupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5ThemeSupport-devel >= %{qtbase_ver}
 BuildRequires:	pkgconfig
-%if %{with qch}
+%if %{with doc}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
 %endif
 BuildRequires:	qt5-build >= %{qtbase_ver}
@@ -197,15 +196,17 @@ Przykłady do bibliotek Qt5 Wayland.
 qmake-qt5 \
 	%{?with_qtcompositor:CONFIG+=wayland-compositor}
 %{__make}
-%{__make} %{!?with_qch:html_}docs
+%{?with_doc:%{__make} docs}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
-%{__make} install_%{!?with_qch:html_}docs \
+%if %{with doc}
+%{__make} install_docs \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
+%endif
 
 # useless symlinks
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.so.5.?
@@ -310,21 +311,14 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/mkspecs/modules/qt_lib_waylandclient.pri
 %{qt5dir}/mkspecs/modules/qt_lib_waylandclient_private.pri
 
-# not finished
-%if 0
+%if %{with doc}
 %files doc
 %defattr(644,root,root,755)
-%{_docdir}/qt5-doc/qtenginio
-%{_docdir}/qt5-doc/qtenginiooverview
-%{_docdir}/qt5-doc/qtenginioqml
+%{_docdir}/qt5-doc/qtwaylandcompositor
 
-%if %{with qch}
 %files doc-qch
 %defattr(644,root,root,755)
-%{_docdir}/qt5-doc/qtenginio.qch
-%{_docdir}/qt5-doc/qtenginiooverview.qch
-%{_docdir}/qt5-doc/qtenginioqml.qch
-%endif
+%{_docdir}/qt5-doc/qtwaylandcompositor.qch
 %endif
 
 %if %{with qtcompositor}

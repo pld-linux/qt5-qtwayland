@@ -12,12 +12,12 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.8.0
-Release:	3
+Version:	5.11.1
+Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	0a40bd721bd5e1630601beab660c6ea9
+Source0:	http://download.qt.io/official_releases/qt/5.11/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+# Source0-md5:	26d9d22805572adb75610da4316736cd
 URL:		http://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libwayland-egl-devel
@@ -190,7 +190,7 @@ Qt5 Wayland examples.
 Przykłady do bibliotek Qt5 Wayland.
 
 %prep
-%setup -q -n %{orgname}-opensource-src-%{version}
+%setup -q -n %{orgname}-everywhere-src-%{version}
 
 %build
 qmake-qt5 \
@@ -209,12 +209,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 # useless symlinks
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.so.5.?
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.so.5.??
 # actually drop *.la, follow policy of not packaging them when *.pc exist
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
-
-# no proper cmake support as of 5.5.1 (there should be some names after _)
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/cmake/{Qt5Gui/Qt5Gui_,Qt5WaylandClient/Qt5WaylandClient_}.cmake
 
 # Prepare some files list
 ifecho() {
@@ -262,6 +259,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-server
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdrm-egl-server.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libshm-emulation-server.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libwayland-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-glx.so
@@ -277,6 +275,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libQt5WaylandCompositor.prl
 %{_includedir}/qt5/QtWaylandCompositor
 %{_pkgconfigdir}/Qt5WaylandCompositor.pc
+%{_libdir}/cmake/Qt5Gui/Qt5Gui_QWaylandXCompositeEglPlatformIntegrationPlugin.cmake
+%{_libdir}/cmake/Qt5Gui/Qt5Gui_QWaylandXCompositeGlxPlatformIntegrationPlugin.cmake
 %{_libdir}/cmake/Qt5WaylandCompositor
 %{qt5dir}/mkspecs/modules/qt_lib_waylandcompositor.pri
 %{qt5dir}/mkspecs/modules/qt_lib_waylandcompositor_private.pri
@@ -284,7 +284,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n Qt5WaylandClient
 %defattr(644,root,root,755)
-%doc LGPL_EXCEPTION.txt README
+%doc LICENSE.GPL3-EXCEPT README
 # dist/changes-*
 %attr(755,root,root) %{_libdir}/libQt5WaylandClient.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5WaylandClient.so.5
@@ -295,7 +295,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/wayland-decoration-client/libbradient.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-client
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libdrm-egl-server.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libwayland-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libqt-plugin-wayland-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libshm-emulation-server.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libxcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libxcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-shell-integration
@@ -307,6 +308,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libQt5WaylandClient.prl
 %{_includedir}/qt5/QtWaylandClient
 %{_pkgconfigdir}/Qt5WaylandClient.pc
+%{_libdir}/cmake/Qt5Gui/Qt5Gui_QWaylandEglPlatformIntegrationPlugin.cmake
+%{_libdir}/cmake/Qt5Gui/Qt5Gui_QWaylandIntegrationPlugin.cmake
 %{_libdir}/cmake/Qt5WaylandClient
 %{qt5dir}/mkspecs/modules/qt_lib_waylandclient.pri
 %{qt5dir}/mkspecs/modules/qt_lib_waylandclient_private.pri

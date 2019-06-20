@@ -12,15 +12,16 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.12.3
+Version:	5.13.0
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.12/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	69dde44d9d8b7a1c24fdefdb5fecba30
+Source0:	http://download.qt.io/official_releases/qt/5.13/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+# Source0-md5:	e8093b31435475053af150a16f54e1dd
 URL:		http://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-GLX-devel
+BuildRequires:	Qt5AccessibilitySupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
 BuildRequires:	Qt5EglSupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5EventDispatcherSupport-devel >= %{qtbase_ver}
@@ -30,6 +31,7 @@ BuildRequires:	Qt5Gui-devel >= %{qtbase_ver}
 BuildRequires:	Qt5PlatformCompositorSupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5ServiceSupport-devel >= %{qtbase_ver}
 BuildRequires:	Qt5ThemeSupport-devel >= %{qtbase_ver}
+BuildRequires:	Qt5XkbCommonSupport-devel >= %{qtbase_ver}
 BuildRequires:	pkgconfig
 %if %{with doc}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
@@ -260,6 +262,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/plugins/wayland-graphics-integration-server
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdrm-egl-server.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdmabuf-server.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/liblinux-dmabuf-unstable-v1.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-plugin-wayland-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libshm-emulation-server.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libwayland-eglstream-controller.so
@@ -303,6 +306,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libxcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libxcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-shell-integration
+%attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libfullscreen-shell-v1.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libivi-shell.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libwl-shell.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libxdg-shell.so

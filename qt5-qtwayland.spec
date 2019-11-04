@@ -12,12 +12,12 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.13.1
+Version:	5.13.2
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.13/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	071e8a8c8c28cdb9c6cddda49037546b
+# Source0-md5:	cdd20ba344d3786b69ced5510f04feed
 URL:		http://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-GLX-devel
@@ -261,8 +261,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-server
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdrm-egl-server.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdmabuf-server.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/liblinux-dmabuf-unstable-v1.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-plugin-wayland-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libshm-emulation-server.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libwayland-eglstream-controller.so
@@ -299,7 +297,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/plugins/wayland-decoration-client
 %attr(755,root,root) %{qt5dir}/plugins/wayland-decoration-client/libbradient.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-client
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libdmabuf-server.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libdrm-egl-server.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libqt-plugin-wayland-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-client/libshm-emulation-server.so

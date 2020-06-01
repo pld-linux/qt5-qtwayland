@@ -12,12 +12,12 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.14.2
+Version:	5.15.0
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.14/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	55b5b2a9189c96d662bc438932b85384
+Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+# Source0-md5:	51e273a955d2aba7e6838bdddff03ed5
 URL:		http://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-GLX-devel
@@ -262,15 +262,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-server
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdmabuf-server.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libdrm-egl-server.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/liblinux-dmabuf-unstable-v1.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-plugin-wayland-egl.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libshm-emulation-server.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libvulkan-server.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libwayland-eglstream-controller.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-egl.so
-%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libxcomposite-glx.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-dmabuf-server-buffer.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-drm-egl-server-buffer.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-linux-dmabuf-unstable-v1.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-shm-emulation-server.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-vulkan-server.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-wayland-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-wayland-eglstream-controller.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-xcomposite-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-xcomposite-glx.so
 %dir %{qt5dir}/qml/QtWayland
 %dir %{qt5dir}/qml/QtWayland/Compositor
 %attr(755,root,root) %{qt5dir}/qml/QtWayland/Compositor/libqwaylandcompositorplugin.so

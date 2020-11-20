@@ -12,12 +12,13 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.15.1
+Version:	5.15.2
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	aa95a5e8f65de0fb55fe45278ce79852
+# Source0-md5:	26577fbbe0d011b7034bca3c64bc38ae
+Patch0:		%{name}-revert-QTBUG-83303.patch
 URL:		http://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-GLX-devel
@@ -195,6 +196,7 @@ Przykłady do bibliotek Qt5 Wayland.
 
 %prep
 %setup -q -n %{orgname}-everywhere-src-%{version}
+%patch0 -p1
 
 %build
 qmake-qt5 \

@@ -14,12 +14,12 @@ Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
 Version:	5.15.2
 Release:	2
-License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
+License:	LGPL v3 or GPL v2 or GPL v3 or commercial
 Group:		Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
 # Source0-md5:	26577fbbe0d011b7034bca3c64bc38ae
 Patch0:		%{name}-revert-QTBUG-83303.patch
-URL:		http://www.qt.io/
+URL:		https://www.qt.io/
 BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-GLX-devel
 BuildRequires:	Qt5AccessibilitySupport-devel >= %{qtbase_ver}
@@ -41,17 +41,17 @@ BuildRequires:	qt5-assistant >= %{qttools_ver}
 %endif
 BuildRequires:	qt5-build >= %{qtbase_ver}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
-BuildRequires:	rpmbuild(macros) >= 1.654
+BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	wayland-devel >= 1.4.0
 BuildRequires:	wayland-egl-devel
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.2.0
 BuildRequires:	xz
 %if %{with qtcompositor}
 BuildRequires:	Qt5Qml-devel >= %{qtdeclarative_ver}
 BuildRequires:	Qt5Quick-devel >= %{qtdeclarative_ver}
-BuildRequires:	xorg-lib-libX11-devel
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -79,7 +79,6 @@ Summary(pl.UTF-8):	Biblioteka Qt5 WaylandCompositor
 Group:		Libraries
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
-Requires:	Qt5Network >= %{qtbase_ver}
 Requires:	Qt5Qml >= %{qtdeclarative_ver}
 Requires:	Qt5Quick >= %{qtdeclarative_ver}
 Requires:	wayland >= 1.4.0
@@ -120,6 +119,7 @@ Summary:	The Qt5 WaylandClient library
 Summary(pl.UTF-8):	Biblioteka Qt5 WaylandClient
 Group:		Libraries
 Requires:	Qt5Core >= %{qtbase_ver}
+Requires:	Qt5DBus >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
 Requires:	wayland >= 1.4.0
 Requires:	xorg-lib-libxkbcommon >= 0.2.0
@@ -155,9 +155,7 @@ Summary:	Qt5 Wayland documentation in HTML format
 Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Wayland w formacie HTML
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc
 Qt5 Wayland documentation in HTML format.
@@ -170,9 +168,7 @@ Summary:	Qt5 Wayland documentation in QCH format
 Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Wayland w formacie QCH
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc-qch
 Qt5 Wayland documentation in QCH format.
@@ -184,9 +180,7 @@ Dokumentacja do bibliotek Qt5 Wayland w formacie QCH.
 Summary:	Qt5 Wayland examples
 Summary(pl.UTF-8):	Przykłady do bibliotek Qt5 Wayland
 Group:		X11/Development/Libraries
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description examples
 Qt5 Wayland examples.
@@ -206,6 +200,7 @@ qmake-qt5 \
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
@@ -297,8 +292,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n Qt5WaylandClient
 %defattr(644,root,root,755)
-%doc LICENSE.GPL3-EXCEPT README
-# dist/changes-*
+%doc LICENSE.GPL3-EXCEPT README dist/changes-*
 %attr(755,root,root) %{_libdir}/libQt5WaylandClient.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5WaylandClient.so.5
 %attr(755,root,root) %{qt5dir}/bin/qtwaylandscanner

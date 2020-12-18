@@ -83,7 +83,7 @@ Requires:	Qt5Qml >= %{qtdeclarative_ver}
 Requires:	Qt5Quick >= %{qtdeclarative_ver}
 Requires:	wayland >= 1.4.0
 Requires:	xorg-lib-libxkbcommon >= 0.2.0
-Obsoletes:	Qt5Compositor
+Obsoletes:	Qt5Compositor < 5.8.0
 
 %description -n Qt5WaylandCompositor
 Qt5 WaylandCompositor library enables the creation of Wayland
@@ -106,7 +106,7 @@ Requires:	Qt5Qml-devel >= %{qtdeclarative_ver}
 Requires:	Qt5Quick-devel >= %{qtdeclarative_ver}
 Requires:	wayland-devel >= 1.4.0
 Requires:	xorg-lib-libxkbcommon-devel >= 0.2.0
-Obsoletes:	Qt5Compositor-devel
+Obsoletes:	Qt5Compositor-devel < 5.8.0
 
 %description -n Qt5WaylandCompositor-devel
 Qt5 WaylandCompositor library - development files.

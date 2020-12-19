@@ -13,7 +13,7 @@ Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
 Version:	5.15.2
-Release:	2
+Release:	3
 License:	LGPL v3 or GPL v2 or GPL v3 or commercial
 Group:		Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
@@ -256,8 +256,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt5WaylandCompositor.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5WaylandCompositor.so.5
-%attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-egl.so
-%attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-server
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-dmabuf-server-buffer.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-drm-egl-server-buffer.so
@@ -268,6 +266,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-wayland-eglstream-controller.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-xcomposite-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-graphics-integration-server/libqt-wayland-compositor-xcomposite-glx.so
+# dir shared Qt5WaylandClient
 %dir %{qt5dir}/qml/QtWayland
 %dir %{qt5dir}/qml/QtWayland/Compositor
 %attr(755,root,root) %{qt5dir}/qml/QtWayland/Compositor/libqwaylandcompositorplugin.so
@@ -298,6 +297,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/bin/qtwaylandscanner
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-egl.so
 %attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-generic.so
+%attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-egl.so
+%attr(755,root,root) %{qt5dir}/plugins/platforms/libqwayland-xcomposite-glx.so
 %dir %{qt5dir}/plugins/wayland-decoration-client
 %attr(755,root,root) %{qt5dir}/plugins/wayland-decoration-client/libbradient.so
 %dir %{qt5dir}/plugins/wayland-graphics-integration-client
@@ -315,6 +316,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libxdg-shell.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libxdg-shell-v5.so
 %attr(755,root,root) %{qt5dir}/plugins/wayland-shell-integration/libxdg-shell-v6.so
+# dir shared Qt5WaylandCompositor
+%dir %{qt5dir}/qml/QtWayland
 %dir %{qt5dir}/qml/QtWayland/Client
 %dir %{qt5dir}/qml/QtWayland/Client/TextureSharing
 %attr(755,root,root) %{qt5dir}/qml/QtWayland/Client/TextureSharing/libqwaylandtexturesharing.so

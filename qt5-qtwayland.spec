@@ -12,12 +12,12 @@
 Summary:	The Qt5 Wayland libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Wayland
 Name:		qt5-%{orgname}
-Version:	5.15.4
+Version:	5.15.5
 Release:	1
 License:	LGPL v3 or GPL v2 or GPL v3 or commercial
 Group:		Libraries
 Source0:	https://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-opensource-src-%{version}.tar.xz
-# Source0-md5:	d840ea86d0b3fd43fba4b0bf715d41f7
+# Source0-md5:	a9d552c5143e433458f5087222eb12f8
 Patch0:		%{name}-revert-QTBUG-83303.patch
 URL:		https://www.qt.io/
 BuildRequires:	EGL-devel

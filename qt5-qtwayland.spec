@@ -78,7 +78,7 @@ Ten pakiet zawiera biblioteki Qt5 Wayland.
 Summary:	The Qt5 WaylandCompositor library
 Summary(pl.UTF-8):	Biblioteka Qt5 WaylandCompositor
 Group:		Libraries
-Requires:	Qt5Core >= %{qtbase_ver}
+%requires_eq_to	Qt5Core Qt5Core-devel
 Requires:	Qt5Gui >= %{qtbase_ver}
 Requires:	Qt5Qml >= %{qtdeclarative_ver}
 Requires:	Qt5Quick >= %{qtdeclarative_ver}
@@ -119,7 +119,7 @@ Biblioteka Qt5 WaylandCompositor - pliki programistyczne.
 Summary:	The Qt5 WaylandClient library
 Summary(pl.UTF-8):	Biblioteka Qt5 WaylandClient
 Group:		Libraries
-Requires:	Qt5Core >= %{qtbase_ver}
+%requires_eq_to	Qt5Core Qt5Core-devel
 Requires:	Qt5DBus >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
 Requires:	wayland >= 1.4.0
